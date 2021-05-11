@@ -7,7 +7,7 @@ class Header extends Component {
     render(){
         return(
             <div>
-                <Container maxWidth='xs'>
+                <Container>
                     <Grid container direction='row' justify="flex-start" alignItems='center'>
                         <Grid container item xs={6}>
                             <Button  aria-controls="simple-menu" aria-haspopup='true' >
