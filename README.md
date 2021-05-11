@@ -1,10 +1,3 @@
-# Reglas Repositorio
-
-Descargar Rama Develop, Crear una Rama siempre antes de empezar a trabajar usando:
-
-git checkout -b (Nombre descriptivo de la rama, obvio sin parentesis xD)
-Hacer commits a esa rama creada y hacer push al final. Luego hacer Pull Request para el Merge con develop.
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
