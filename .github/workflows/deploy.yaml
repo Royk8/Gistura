@@ -5,8 +5,8 @@ on:
     branches: [ dev ]
 
 jobs:
-  lint-test-build:
-    name: Lint and Test
+  lint-test-build-deploy:
+    name: Lint, Test, Build and Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,15 +33,6 @@ jobs:
         uses: borales/actions-yarn@v2.3.0
         with:
           cmd: build
-  
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          persist-credential: false
 
       - name: Setup GCP
         uses: google-github-actions/setup-gcloud@master
