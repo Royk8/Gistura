@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 12
 
-      - name: Install
+      - name: Install Dependencies
         uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install
