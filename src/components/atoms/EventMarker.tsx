@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import { icon, Map, marker } from 'leaflet';
+import { ICONS } from '../../../public/Icons';
 
 import 'leaflet/dist/leaflet.css';
 
-
-function RenderMarker(cord : [number, number]){
-    return (
-        <div>
-            <Marker position={cord}></Marker>
-        </div>
-    );
-}
 
 function RenderPopUp(props : any){
     return(
@@ -23,11 +16,19 @@ function RenderPopUp(props : any){
     )
 }
 
+function findIcon(type : string){
+    const iconDir = ICONS.find(icono => icono.name === type);
+    if(iconDir == null){
+        return "";
+    }    
+    return iconDir.url;
+}
+
 const EventMarker = (props: any) => {
     const eventos = props.events.map((evento : any) => {
         const iconAdress = findIcon(evento.type);
         const typeIcons = icon({
-            iconUrl : iconAdress,    
+            iconUrl: iconAdress,    
             iconSize:     [38, 95],
         });
         
@@ -52,12 +53,4 @@ const EventMarker = (props: any) => {
 
 export default EventMarker;
 
-function findIcon(type: String) {
-    switch(type){
-        case "Concert":
-            return "EventIconBlue.svg";
-        case "Art":
-            return "EventIconOrange.svg";
-    }
-    return "";
-}
+

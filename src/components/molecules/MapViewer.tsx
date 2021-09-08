@@ -34,17 +34,24 @@ const MapViewer = () => {
 
 	const evnts = [ 
 		{cord : {lat: 6.2726313123734085, lng: -75.5671962 },
-		type : "Concert",
+		type : "Concierto",
 		info : {
 			name : "Concierto por la paz",
 			place : "Parque Norte"
 			},
 		},
 		{cord : {lat: 6.270440780963118, lng: -75.56680409987322 },
-		type : "Art",
+		type : "Concierto",
 		info : {
-			name : "Concierto por la guerra",
+			name : "Altavoz",
 			place : "Estadio Cincuentenario"
+			},
+		},	
+		{cord : {lat: 6.252410293949885, lng: -75.56911905674622 },
+		type : "Exposición de arte",
+		info : {
+			name : "Rastros de la guerra",
+			place : "Museo de Antioquia"
 			},
 		},	
 	];
