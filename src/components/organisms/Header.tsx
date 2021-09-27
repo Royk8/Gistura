@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	Avatar,
 	IconButton,
@@ -10,6 +10,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import { Menu, Person } from '@material-ui/icons';
 import Link from 'next/link';
+import SideMenu from '../atoms/SideMenu';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	logo: {
@@ -33,12 +34,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const Header = () => {
+	const [open, setOpen] = useState(false);
 	const classes = useStyles();
+	const handleOpen = () => {};
+	const changeOpen = () => {
+		setOpen(!open)
+		console.log("IS it fucking open or what?")
+	}
 	return (
 		<>
 			<AppBar>
 				<Toolbar>
-					<IconButton edge="start" color="secondary">
+					<IconButton edge="start" color="secondary" onClick={() => changeOpen()}>
 						<Menu />
 					</IconButton>
 					<div className={classes.logo}>
@@ -53,6 +60,10 @@ const Header = () => {
 							</div>
 						</Link>
 					</div>
+					<div>
+						HOLA
+					
+					</div>		
 					<ButtonBase className={classes.avatarButton}>
 						<Avatar className={classes.avatar}>
 							<Person className={classes.avatarIcon} />
@@ -61,6 +72,7 @@ const Header = () => {
 				</Toolbar>
 			</AppBar>
 			<Toolbar />
+			<SideMenu open={open} onClose={changeOpen}/>
 		</>
 	);
 };
