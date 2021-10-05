@@ -16,6 +16,7 @@ export function fetchEventsJSON () {
 
     useEffect(() => {
         fetchApi();
+        console.log(cultural);
     }, [])
 
     return {cultural}

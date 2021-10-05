@@ -3,7 +3,7 @@ import { Circle, MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 import { Map } from 'leaflet';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import EventMarker from '../atoms/EventMarker';
+import EventMarker from './EventMarker';
 import { fetchEventsJSON } from '../../hooks/CulturalEvents';
 
 import 'leaflet/dist/leaflet.css';
@@ -28,6 +28,13 @@ const MapViewer = () => {
 	]);
 
 	const { cultural } = fetchEventsJSON();
+	const EventosFuncionales = () => {
+		if (cultural == null) {
+			return <div />;
+		}
+		return <EventMarker events={cultural} />;
+	};
+	console.log(cultural);
 	const classes = useStyles();
 
 	useEffect(() => {
@@ -46,8 +53,6 @@ const MapViewer = () => {
 				{ enableHighAccuracy: true },
 			);
 		}
-		// setEvnts(fetchEventsJSON());
-		// console.log(evnts);
 	}, [map]);
 
 	return (
@@ -77,7 +82,7 @@ const MapViewer = () => {
 						}}
 					/>
 				)}
-				<EventMarker events={cultural} />
+				{EventosFuncionales}
 			</MapContainer>
 		</div>
 	);
