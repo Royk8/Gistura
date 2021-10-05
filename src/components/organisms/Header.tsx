@@ -36,16 +36,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Header = () => {
 	const [open, setOpen] = useState(false);
 	const classes = useStyles();
-	const handleOpen = () => {};
 	const changeOpen = () => {
-		setOpen(!open)
-		console.log("IS it fucking open or what?")
-	}
+		setOpen(!open);
+	};
 	return (
 		<>
 			<AppBar>
 				<Toolbar>
-					<IconButton edge="start" color="secondary" onClick={() => changeOpen()}>
+					<IconButton
+						edge="start"
+						color="secondary"
+						onClick={() => changeOpen()}
+					>
 						<Menu />
 					</IconButton>
 					<div className={classes.logo}>
@@ -60,10 +62,7 @@ const Header = () => {
 							</div>
 						</Link>
 					</div>
-					<div>
-						HOLA
-					
-					</div>		
+					<div>HOLA</div>
 					<ButtonBase className={classes.avatarButton}>
 						<Avatar className={classes.avatar}>
 							<Person className={classes.avatarIcon} />
@@ -72,7 +71,7 @@ const Header = () => {
 				</Toolbar>
 			</AppBar>
 			<Toolbar />
-			<SideMenu open={open} onClose={changeOpen}/>
+			<SideMenu open={open} onClose={changeOpen} />
 		</>
 	);
 };

@@ -3,8 +3,10 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { AppProps } from 'next/dist/shared/lib/router/router';
+import { Provider } from 'react-redux';
 
 import theme from '../styles/theme';
+import store from '../state/store';
 
 const MyApp = (props: AppProps) => {
 	const { Component, pageProps } = props;
@@ -26,8 +28,10 @@ const MyApp = (props: AppProps) => {
 				/>
 			</Head>
 			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<Component {...pageProps} />
+				<Provider store={store}>
+					<CssBaseline />
+					<Component {...pageProps} />
+				</Provider>
 			</ThemeProvider>
 		</>
 	);
