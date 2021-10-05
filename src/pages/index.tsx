@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import Header from '../components/organisms/Header';
 
 const Home = () => {
-	const MapViewer = dynamic(() => import('../components/atoms/MapViewer'), {
+	const MapViewer = dynamic(() => import('../components/molecules/MapViewer'), {
 		ssr: false,
 	});
 

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Circle, MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
-import { latLngBounds, Map } from 'leaflet';
+import { Circle, MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
+import { latLngBounds, Map, marker, icon } from 'leaflet';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import EventMarker from '../atoms/EventMarker';
+import { fetchEventsJSON } from '../../hooks/CulturalEvents';
 
 import 'leaflet/dist/leaflet.css';
 import customTheme from '../../styles/theme';
@@ -25,13 +27,10 @@ const MapViewer = () => {
 		0, 0,
 	]);
 
-	const corners = [
-		{ lat: 6.092365, lng: -75.695086 },
-		{ lat: 6.466048, lng: -75.359317 },
-	];
-
-	const latLngBound = latLngBounds(corners[0], corners[1]);
+	const {cultural} = fetchEventsJSON();
+	console.log(cultural);
 	const classes = useStyles();
+
 
 	useEffect(() => {
 		if (navigator?.geolocation && map) {
@@ -49,12 +48,13 @@ const MapViewer = () => {
 				{ enableHighAccuracy: true },
 			);
 		}
+		//setEvnts(fetchEventsJSON());
+		//console.log(evnts); 
 	}, [map]);
 
 	return (
 		<div id="hellowis">
 			<MapContainer
-				maxBounds={latLngBound}
 				center={[6.2519059, -75.5680812]}
 				whenCreated={setMap}
 				className={classes.map}
@@ -79,7 +79,8 @@ const MapViewer = () => {
 						}}
 					/>
 				)}
-			</MapContainer>
+				<EventMarker events={cultural} />
+			</MapContainer>	
 		</div>
 	);
 };
