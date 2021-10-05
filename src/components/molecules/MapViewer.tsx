@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Circle, MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
+import {
+	Circle,
+	MapContainer,
+	Marker,
+	Popup,
+	TileLayer,
+	ZoomControl,
+} from 'react-leaflet';
 import { latLngBounds, Map, marker, icon } from 'leaflet';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -26,17 +33,16 @@ const MapViewer = () => {
 		0, 0,
 	]);
 
-	const {cultural} = fetchEventsJSON();
+	const { cultural } = fetchEventsJSON();
 
-	const EventosFuncionales = (() => {
-		if (cultural == null){
-			return (<div></div>);
+	const EventosFuncionales = () => {
+		if (cultural == null) {
+			return <div />;
 		}
-		return (<EventMarker events={cultural} />);
-	});
+		return <EventMarker events={cultural} />;
+	};
 	console.log(cultural);
 	const classes = useStyles();
-
 
 	useEffect(() => {
 		if (navigator?.geolocation && map) {
@@ -84,7 +90,7 @@ const MapViewer = () => {
 					/>
 				)}
 				{EventosFuncionales()}
-			</MapContainer>	
+			</MapContainer>
 		</div>
 	);
 };
