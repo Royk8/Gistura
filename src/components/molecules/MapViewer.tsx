@@ -39,7 +39,7 @@ const MapViewer = () => {
 		if (cultural == null) {
 			return <div />;
 		}
-		return <EventMarker events={cultural} />;
+		return <EventMarker eventos={cultural} />;
 	};
 	console.log(cultural);
 	const classes = useStyles();

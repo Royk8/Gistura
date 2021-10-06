@@ -34,20 +34,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface EventMarkerProps {
-	events: any[];
+	eventos: any[];
 }
 
-const EventMarker: FC<EventMarkerProps> = ({ events }) => {
+const EventMarker: FC<EventMarkerProps> = ({ eventos }) => {
 	const classes = useStyles();
 
-	const { categories } = useAppSelector(selectCategories);
-
 	const vacio = <div />;
-	if (events == null) {
+	if (eventos == null) {
 		return vacio;
 	}
+	const { categories } = useAppSelector(selectCategories);
 
-	const eventos = events.map((evento: any) => {
+	const events = eventos.map((evento: any) => {
 		if (
 			evento.location.latitude == null ||
 			evento.location.longitude == null ||
@@ -97,7 +96,7 @@ const EventMarker: FC<EventMarkerProps> = ({ events }) => {
 		);
 	});
 
-	return <div>{eventos}</div>;
+	return <div>{events}</div>;
 };
 
 export default EventMarker;

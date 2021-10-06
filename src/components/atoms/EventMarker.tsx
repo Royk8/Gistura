@@ -1,10 +1,8 @@
 import React from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import { icon } from 'leaflet';
-
 import { Typography } from '@material-ui/core';
 import 'leaflet/dist/leaflet.css';
-
 import { ICONS } from '../../../public/Icons';
 
 function RenderPopUp(props: any) {
@@ -95,12 +93,12 @@ imageUrls
 	return iconDir.url;
 }
 
-const EventMarker = ({ events }: any) => {
+const EventMarker = ({ eventos }: any) => {
 	const vacio = <div />;
-	if (events == null) {
+	if (eventos == null) {
 		return vacio;
 	}
-	const eventos = events.map((evento: any) => {
+	const events = eventos.map((evento: any) => {
 		if (
 			evento.location.latitude == null ||
 			evento.location.longitude == null ||
@@ -134,7 +132,7 @@ const EventMarker = ({ events }: any) => {
 		);
 	});
 
-	return <div>{eventos}</div>;
+	return <div>{events}</div>;
 };
 
 export default EventMarker;
