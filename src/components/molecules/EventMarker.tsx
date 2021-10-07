@@ -4,6 +4,7 @@ import { Marker, Popup } from 'react-leaflet';
 import { divIcon } from 'leaflet';
 import { makeStyles, Theme } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
+import * as CustomIcons from '../atoms/icons/MapIcons';
 import MarkerPopUp from '../atoms/MarkerPopUp';
 // import 'leaflet/dist/leaflet.css';
 import { useAppSelector } from '../../hooks/redux';
@@ -13,19 +14,19 @@ import MarkerIcon from '../atoms/icons/MapIcons';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	marker: {
-		marginTop: `-${theme.spacing(8)}px !important`,
-		marginLeft: `-${theme.spacing(4)}px !important`,
+		marginTop: `-${theme.spacing(6)}px !important`,
+		marginLeft: `-${theme.spacing(3)}px !important`,
 	},
 	place: {
 		position: 'relative',
 		'&>*:first-child': {
 			filter: 'drop-shadow(3px 3px 4px rgb(0 0 0 / 0.4))',
-			fontSize: theme.spacing(8),
+			fontSize: theme.spacing(6),
 		},
 		'&>*:last-child': {
 			top: theme.spacing(1),
-			left: theme.spacing(2),
-			fontSize: theme.spacing(4),
+			left: theme.spacing(1.725),
+			fontSize: theme.spacing(2.5),
 		},
 		'&>*': {
 			position: 'absolute',
@@ -39,12 +40,12 @@ interface EventMarkerProps {
 
 const EventMarker: FC<EventMarkerProps> = ({ eventos }) => {
 	const classes = useStyles();
+	const { categories } = useAppSelector(selectCategories);
 
 	const vacio = <div />;
 	if (eventos == null) {
 		return vacio;
 	}
-	const { categories } = useAppSelector(selectCategories);
 
 	const events = eventos.map((evento: any) => {
 		if (
@@ -64,20 +65,27 @@ const EventMarker: FC<EventMarkerProps> = ({ eventos }) => {
 			(category) => category.id === evento.category,
 		);
 		const Icono = (Icons as any)[categoryName?.icon.name || 'Menu'];
+		const CustomIcono = (CustomIcons as any)[
+			categoryName?.icon.name || 'CelebrationRounded'
+		];
+
 		const typeIcon = divIcon({
 			html: ReactDOMServer.renderToString(
-				categoryName?.icon.type === Icon.Types.MATERIAL_UI ? (
-					<div className={classes.place}>
-						<MarkerIcon
-							color="inherit"
-							style={{ color: categoryName?.color || 'red' }}
-							fontSize="inherit"
-						/>
+				<div className={classes.place}>
+					<MarkerIcon
+						color="inherit"
+						style={{ color: categoryName?.color || 'red' }}
+						fontSize="inherit"
+					/>
+					{categoryName?.icon.type === Icon.Types.MATERIAL_UI ? (
 						<Icono fontSize="inherit" style={{ color: 'white' }} />
-					</div>
-				) : (
-					<div />
-				),
+					) : (
+						<CustomIcono
+							fontSize="inherit"
+							style={{ color: 'white' }}
+						/>
+					)}
+				</div>,
 			),
 			className: classes.marker,
 		});
