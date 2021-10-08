@@ -19,6 +19,37 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
+function getDayOfWeek(date : number) : string{
+	const daysArray = [
+		'Domingo',
+		'Lunes',
+		'Martes',
+		'Miércoles',
+		'Jueves',
+		'Viernes',
+		'Sábado',
+	];
+	return daysArray[date];
+}
+
+function getMonthName(month : number) : string {
+	const monthsArray = [
+		'enero',
+		'febrero',
+		'marzo',
+		'abril',
+		'mayo',
+		'junio',
+		'julio',
+		'agosto',
+		'septiembre',
+		'octubre',
+		'noviembre',
+		'diciembre',
+	];
+	return monthsArray[month];
+}
+
 function formatTime(date: Date) {
 	let h = date.getHours();
 	let am = ' AM';
@@ -119,41 +150,46 @@ function MarkerPopUp(props: any) {
 	const [open, setOpen] = useState(false);
 	const classes = useStyles();
 	const { event } = props;
+
 	const address = event.location.address || '';
 	const specs = event.location.specs || '';
-	const startDate = new Date(event.schedules[0].startDate);
-	const daysArray = [
-		'Domingo',
-		'Lunes',
-		'Martes',
-		'Miércoles',
-		'Jueves',
-		'Viernes',
-		'Sábado',
-	];
-	const monthsArray = [
-		'enero',
-		'febrero',
-		'marzo',
-		'abril',
-		'mayo',
-		'junio',
-		'julio',
-		'agosto',
-		'septiembre',
-		'octubre',
-		'noviembre',
-		'diciembre',
-	];
-	const diaSemana = daysArray[startDate.getDay()];
-	const diaMes = startDate.getDate();
-	const mes = monthsArray[startDate.getMonth()];
-	const endDate = new Date(event.schedules[0].endDate);
-	const finDiaSemana = daysArray[endDate.getDay()];
-	const finDiaMes = endDate.getDate();
-	const finMes = monthsArray[endDate.getMonth()];
-	const restriction = event.minAge
-		? `Edad Minima: ${event.minAge} años.`
+	const schedulesSize = Object.keys(event.schedules).length;
+	let fechaInicio = Array(schedulesSize);
+
+	for(let i = 0; i < schedulesSize; i++){
+
+		const startDate = new Date(event.schedules[i].startDate);
+		const diaSemana = getDayOfWeek(startDate.getDay());
+		const diaMes = startDate.getDate();
+		const mes = getMonthName(startDate.getMonth());
+
+		const endDate = new Date(event.schedules[i].endDate);
+		const finDiaSemana = getDayOfWeek(endDate.getDay());
+		const finDiaMes = endDate.getDate();
+		const finMes = getMonthName(endDate.getMonth());
+
+		fechaInicio[i] = `${diaSemana} ${diaMes} de ${mes}`;
+
+		const FinalDate = () => {
+			if (
+				diaSemana == finDiaSemana &&
+				finDiaMes == finDiaMes &&
+				finMes == mes
+			) {
+				return <div />;
+			}
+			return (
+				<>
+					- {finDiaSemana} {finDiaMes} de {finMes}
+				</>
+			);
+		};
+	}
+
+
+
+	const restriction = event.minAge? 
+		`Edad Minima: ${event.minAge} años.`
 		: 'Sin restricciones de edad';
 	const description = event.description || '';
 	const sponsor = event.sponsor || '';
@@ -161,7 +197,7 @@ function MarkerPopUp(props: any) {
 	const { price } = event;
 	const imageurl = event.imageUrls[0];
 
-	const fechaCompleta = `${diaSemana} ${diaMes} de ${mes}`;
+	
 
 	const ImgUrl = (props: any) => {
 		if (props.url == null) {
@@ -174,25 +210,10 @@ function MarkerPopUp(props: any) {
 		);
 	};
 
-	const FinalDate = () => {
-		if (
-			diaSemana == finDiaSemana &&
-			finDiaMes == finDiaMes &&
-			finMes == mes
-		) {
-			return <div />;
-		}
-		return (
-			<>
-				- {finDiaSemana} {finDiaMes} de {finMes}
-			</>
-		);
-	};
-
 	const changeOpen = () => {
 		setOpen(!open);
 	};
-
+//{diaSemana} {diaMes} de {mes} <FinalDate />
 	return (
 		<Box>
 			<ImgUrl url={imageurl} />
@@ -201,7 +222,7 @@ function MarkerPopUp(props: any) {
 				<b> {event.name} </b>{' '}
 			</Typography>
 			<Typography variant="h2">
-				{diaSemana} {diaMes} de {mes} <FinalDate />
+				
 			</Typography>
 			<Typography display="inline" variant="h2">
 				{category} -{' '}
