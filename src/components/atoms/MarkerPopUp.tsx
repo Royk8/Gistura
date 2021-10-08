@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-function getDayOfWeek(date : number) : string{
+function getDayOfWeek(date: number): string {
 	const daysArray = [
 		'Domingo',
 		'Lunes',
@@ -32,7 +32,7 @@ function getDayOfWeek(date : number) : string{
 	return daysArray[date];
 }
 
-function getMonthName(month : number) : string {
+function getMonthName(month: number): string {
 	const monthsArray = [
 		'enero',
 		'febrero',
@@ -69,7 +69,7 @@ function SchedulePopUp(props: any) {
 	const classes = useStyles();
 	const { event } = props;
 
-	/*const Fechas = event.schedules.map((fecha: any) => {
+	/* const Fechas = event.schedules.map((fecha: any) => {
 		const startDate = new Date(fecha.startDate);
 		const diaSemana = getDayOfWeek(startDate.getDay());
 		const diaMes = startDate.getDate();
@@ -103,7 +103,7 @@ function SchedulePopUp(props: any) {
 				</Button>
 			</Box>
 		);{Fechas}
-	});*/
+	}); */
 	return (
 		<Dialog
 			open={props.open}
@@ -117,7 +117,7 @@ function SchedulePopUp(props: any) {
 				<Typography variant="body2">Horarios</Typography>
 			</Box>
 			<Divider />
-				No Hay Fechas
+			No Hay Fechas
 			<Divider />
 		</Dialog>
 	);
@@ -132,10 +132,9 @@ function MarkerPopUp(props: any) {
 	const specs = event.location.specs || '';
 	const schedulesSize = Object.keys(event.schedules).length;
 
-	const fechas : any[] = [];
+	const fechas: any[] = [];
 
-	for(let i = 0; i < schedulesSize; i++){
-
+	for (let i = 0; i < schedulesSize; i++) {
 		const startDate = new Date(event.schedules[i].startDate);
 		const diaSemana = getDayOfWeek(startDate.getDay());
 		const diaMes = startDate.getDate();
@@ -146,39 +145,38 @@ function MarkerPopUp(props: any) {
 		const finDiaMes = endDate.getDate();
 		const finMes = getMonthName(endDate.getMonth());
 
-		fechas.push({start : `${diaSemana} ${diaMes} de ${mes}`, end : () => {
-			if (
-				diaSemana == finDiaSemana &&
-				finDiaMes == finDiaMes &&
-				finMes == mes
-			) {
-				return ""
-			}
-			return '${finDiaSemana} ${finDiaMes} de ${finMes}';
-		}});
-	};
-
-	const rangoDeFechas = () => {
-		if(fechas.length === 0){
-			return "";
-		};
-		if(fechas.at(-1)['end'] === ""){
-			return fechas[0]['start'] + " - " + fechas.at(-1)['start'];
-		}
-		return fechas[0]['start'] + " - " + fechas.at(-1)['end'];
+		fechas.push({
+			start: `${diaSemana} ${diaMes} de ${mes}`,
+			end: () => {
+				if (
+					diaSemana == finDiaSemana &&
+					finDiaMes == finDiaMes &&
+					finMes == mes
+				) {
+					return '';
+				}
+				return '${finDiaSemana} ${finDiaMes} de ${finMes}';
+			},
+		});
 	}
 
+	const rangoDeFechas = () => {
+		if (fechas.length === 0) {
+			return '';
+		}
+		if (fechas.at(-1).end === '') {
+			return `${fechas[0].start} - ${fechas.at(-1).start}`;
+		}
+		return `${fechas[0].start} - ${fechas.at(-1).end}`;
+	};
 
-
-	const restriction = event.minAge? 
-		`Edad Minima: ${event.minAge} años.`
+	const restriction = event.minAge
+		? `Edad Minima: ${event.minAge} años.`
 		: 'Sin restricciones de edad';
 	const description = event.description || '';
 	const { category } = event;
 	const { price } = event;
 	const imageurl = event.imageUrls[0];
-
-	
 
 	const ImgUrl = (props: any) => {
 		if (props.url == null) {
@@ -202,9 +200,7 @@ function MarkerPopUp(props: any) {
 				{' '}
 				<b> {event.name} </b>{' '}
 			</Typography>
-			<Typography variant="h2">
-				{rangoDeFechas}
-			</Typography>
+			<Typography variant="h2">{rangoDeFechas}</Typography>
 			<Typography display="inline" variant="h2">
 				{category} -{' '}
 			</Typography>

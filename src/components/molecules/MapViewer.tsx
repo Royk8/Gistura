@@ -90,9 +90,7 @@ const MapViewer = () => {
 						}}
 					/>
 				)}
-				<MarkerClusterGroup >
-					{EventosFuncionales()}
-				</MarkerClusterGroup>
+				<MarkerClusterGroup>{EventosFuncionales()}</MarkerClusterGroup>
 			</MapContainer>
 		</div>
 	);
