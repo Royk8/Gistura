@@ -55,12 +55,6 @@ const EventMarker: FC<EventMarkerProps> = ({ eventos }) => {
 		) {
 			return vacio;
 		}
-		// const iconAddress = findIcon(evento.category);
-		/* const typeIcons = icon({
-			iconUrl: iconAddress,
-			iconSize: [38, 95],
-		}); */
-
 		const categoryName = categories.find(
 			(category) => category.id === evento.category,
 		);
