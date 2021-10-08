@@ -48,6 +48,11 @@ class MyDocument extends Document {
 						rel="stylesheet"
 						href="https://fonts.googleapis.com/icon?family=Material+Icons"
 					/>
+					<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> 
+					<link
+					rel="stylesheet"
+					href="https://unpkg.com/react-leaflet-markercluster/dist/styles.min.css"
+					/>
 				</Head>
 				<body style={{ margin: 0, padding: 0 }}>
 					<Main />

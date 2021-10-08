@@ -8,6 +8,7 @@ import {
 	ZoomControl,
 } from 'react-leaflet';
 import { latLngBounds, Map, marker, icon } from 'leaflet';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import EventMarker from './EventMarker';
@@ -89,7 +90,9 @@ const MapViewer = () => {
 						}}
 					/>
 				)}
-				{EventosFuncionales()}
+				<MarkerClusterGroup >
+					{EventosFuncionales()}
+				</MarkerClusterGroup>
 			</MapContainer>
 		</div>
 	);

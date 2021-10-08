@@ -132,7 +132,7 @@ function MarkerPopUp(props: any) {
 	const specs = event.location.specs || '';
 	const schedulesSize = Object.keys(event.schedules).length;
 
-	let fechas = Array(schedulesSize);
+	const fechas : any[] = [];
 
 	for(let i = 0; i < schedulesSize; i++){
 
@@ -146,8 +146,7 @@ function MarkerPopUp(props: any) {
 		const finDiaMes = endDate.getDate();
 		const finMes = getMonthName(endDate.getMonth());
 
-		fechas[i]['start'] = `${diaSemana} ${diaMes} de ${mes}`;
-		fechas[i]['end'] = () => {
+		fechas.push({start : `${diaSemana} ${diaMes} de ${mes}`, end : () => {
 			if (
 				diaSemana == finDiaSemana &&
 				finDiaMes == finDiaMes &&
@@ -156,7 +155,7 @@ function MarkerPopUp(props: any) {
 				return ""
 			}
 			return '${finDiaSemana} ${finDiaMes} de ${finMes}';
-		};
+		}});
 	};
 
 	const rangoDeFechas = () => {
