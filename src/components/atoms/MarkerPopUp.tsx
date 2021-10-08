@@ -68,41 +68,18 @@ function SchedulePopUp(props: any) {
 	const [selectionColor, setSelectionColor] = useState<string>('default');
 	const classes = useStyles();
 	const { event } = props;
-	const daysArray = [
-		'Domingo',
-		'Lunes',
-		'Martes',
-		'Miércoles',
-		'Jueves',
-		'Viernes',
-		'Sábado',
-	];
-	const monthsArray = [
-		'enero',
-		'febrero',
-		'marzo',
-		'abril',
-		'mayo',
-		'junio',
-		'julio',
-		'agosto',
-		'septiembre',
-		'octubre',
-		'noviembre',
-		'diciembre',
-	];
 
-	const Fechas = event.schedules.map((fecha: any) => {
+	/*const Fechas = event.schedules.map((fecha: any) => {
 		const startDate = new Date(fecha.startDate);
-		const diaSemana = daysArray[startDate.getDay()];
+		const diaSemana = getDayOfWeek(startDate.getDay());
 		const diaMes = startDate.getDate();
-		const mes = monthsArray[startDate.getMonth()];
+		const mes = getMonthName(startDate.getMonth());
 		const hour = formatTime(startDate);
 
 		const endDate = new Date(fecha.endDate);
-		const finDiaSemana = daysArray[endDate.getDay()];
+		const finDiaSemana = getDayOfWeek(endDate.getDay());
 		const finDiaMes = endDate.getDate();
-		const finMes = monthsArray[endDate.getMonth()];
+		const finMes = getMonthName(endDate.getMonth());
 
 		const selectButton = () => {
 			if (selectionColor === 'default') {
@@ -125,8 +102,8 @@ function SchedulePopUp(props: any) {
 					<Typography variant="h2">{hour}</Typography>
 				</Button>
 			</Box>
-		);
-	});
+		);{Fechas}
+	});*/
 	return (
 		<Dialog
 			open={props.open}
@@ -140,7 +117,7 @@ function SchedulePopUp(props: any) {
 				<Typography variant="body2">Horarios</Typography>
 			</Box>
 			<Divider />
-			{Fechas}
+				No Hay Fechas
 			<Divider />
 		</Dialog>
 	);
@@ -154,7 +131,8 @@ function MarkerPopUp(props: any) {
 	const address = event.location.address || '';
 	const specs = event.location.specs || '';
 	const schedulesSize = Object.keys(event.schedules).length;
-	let fechaInicio = Array(schedulesSize);
+
+	let fechas = Array(schedulesSize);
 
 	for(let i = 0; i < schedulesSize; i++){
 
@@ -168,22 +146,27 @@ function MarkerPopUp(props: any) {
 		const finDiaMes = endDate.getDate();
 		const finMes = getMonthName(endDate.getMonth());
 
-		fechaInicio[i] = `${diaSemana} ${diaMes} de ${mes}`;
-
-		const FinalDate = () => {
+		fechas[i]['start'] = `${diaSemana} ${diaMes} de ${mes}`;
+		fechas[i]['end'] = () => {
 			if (
 				diaSemana == finDiaSemana &&
 				finDiaMes == finDiaMes &&
 				finMes == mes
 			) {
-				return <div />;
+				return ""
 			}
-			return (
-				<>
-					- {finDiaSemana} {finDiaMes} de {finMes}
-				</>
-			);
+			return '${finDiaSemana} ${finDiaMes} de ${finMes}';
 		};
+	};
+
+	const rangoDeFechas = () => {
+		if(fechas.length === 0){
+			return "";
+		};
+		if(fechas.at(-1)['end'] === ""){
+			return fechas[0]['start'] + " - " + fechas.at(-1)['start'];
+		}
+		return fechas[0]['start'] + " - " + fechas.at(-1)['end'];
 	}
 
 
@@ -192,7 +175,6 @@ function MarkerPopUp(props: any) {
 		`Edad Minima: ${event.minAge} años.`
 		: 'Sin restricciones de edad';
 	const description = event.description || '';
-	const sponsor = event.sponsor || '';
 	const { category } = event;
 	const { price } = event;
 	const imageurl = event.imageUrls[0];
@@ -213,7 +195,7 @@ function MarkerPopUp(props: any) {
 	const changeOpen = () => {
 		setOpen(!open);
 	};
-//{diaSemana} {diaMes} de {mes} <FinalDate />
+
 	return (
 		<Box>
 			<ImgUrl url={imageurl} />
@@ -222,7 +204,7 @@ function MarkerPopUp(props: any) {
 				<b> {event.name} </b>{' '}
 			</Typography>
 			<Typography variant="h2">
-				
+				{rangoDeFechas}
 			</Typography>
 			<Typography display="inline" variant="h2">
 				{category} -{' '}
@@ -237,9 +219,6 @@ function MarkerPopUp(props: any) {
 				{address} {specs}{' '}
 			</Typography>
 			<Typography variant="body2">{restriction}</Typography>
-			<Typography variant="h2" color="primary">
-				{sponsor}{' '}
-			</Typography>
 			<br />
 
 			<Box sx={{ alignContent: 'center' }}>
@@ -258,7 +237,7 @@ function MarkerPopUp(props: any) {
 				event={event}
 				onClose={() => changeOpen()}
 				open={open}
-				dates={fechaCompleta}
+				dates={fechas}
 			/>
 		</Box>
 	);
