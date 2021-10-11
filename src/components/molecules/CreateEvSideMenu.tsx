@@ -10,7 +10,8 @@ import {
   InputLabel,
   Input,
   TextField, 
-  IconButton
+  IconButton,
+  Button
 } from "@material-ui/core";
 import Add from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete'
@@ -169,9 +170,10 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
                 aria-describedby="eventLocationLatitude-helper"
                 /*
                 onChange={(e)=>{
-                    setLatitude(parseInt(e.target.value));
-                    console.log(latitude<-90);
-                    if(latitude<-90 || latitude>90){
+                    latitudU= parseInt(e.target.value;
+                    setLatitude(latitudU);
+                    console.log(latitudeU<-90);
+                    if(latitudeU<-90 || latitudeU>90){
                         setLatitudeError(true);
                         setLatitudeErrorDesc("El valor no está dentro del rango [-90,90]");
                     }else{
@@ -291,6 +293,12 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
                 Detalles y características faltantes
               </FormHelperText>
             </FormControl>
+          </Grid>
+
+          <Grid item md={12}>
+            <Button>
+              Crear evento
+            </Button>
           </Grid>
 
         </Grid>
