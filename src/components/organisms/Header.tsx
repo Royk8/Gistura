@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Menu, Person } from '@material-ui/icons';
 import Link from 'next/link';
 import SideMenu from '../atoms/SideMenu';
+import CreateEvSideMenu from '../molecules/CreateEvSideMenu';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	logo: {
@@ -35,9 +36,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Header = () => {
 	const [open, setOpen] = useState(false);
+	const [openCreEv, setOpenCreEv] = useState(false);
 	const classes = useStyles();
 	const changeOpen = () => {
 		setOpen(!open);
+	};
+	const changeOpenCreEv = () => {
+		setOpenCreEv(!openCreEv);
 	};
 	return (
 		<>
@@ -65,13 +70,14 @@ const Header = () => {
 					<div>HOLA</div>
 					<ButtonBase className={classes.avatarButton}>
 						<Avatar className={classes.avatar}>
-							<Person className={classes.avatarIcon} />
+							<Person className={classes.avatarIcon} onClick={()=>changeOpenCreEv()}/>
 						</Avatar>
 					</ButtonBase>
 				</Toolbar>
 			</AppBar>
 			<Toolbar />
 			<SideMenu open={open} onClose={changeOpen} />
+			<CreateEvSideMenu open={openCreEv} onClose={changeOpenCreEv} />
 		</>
 	);
 };
