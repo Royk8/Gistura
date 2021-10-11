@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-	Circle,
-	MapContainer,
-	Marker,
-	Popup,
-	TileLayer,
-	ZoomControl,
-} from 'react-leaflet';
-import { latLngBounds, Map, marker, icon } from 'leaflet';
+import { Circle, MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
+import { Map } from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -42,7 +35,7 @@ const MapViewer = () => {
 		}
 		return <EventMarker eventos={cultural} />;
 	};
-	console.log(cultural);
+
 	const classes = useStyles();
 
 	useEffect(() => {

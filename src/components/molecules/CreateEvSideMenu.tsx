@@ -9,7 +9,10 @@ import {
 	InputLabel,
 	Input,
 	TextField,
+	IconButton,
+	Button,
 } from '@material-ui/core';
+import Add from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/styles';
 import Schedule from '../atoms/Schedule';
@@ -40,12 +43,8 @@ function countryToFlag(isoCode: string) {
 
 const CreateEvSideMenu = ({ open, onClose }: any) => {
 	const classes = useStyles();
-
-	const [latitude, setLatitude] = useState(0);
-	const [latitudeError, setLatitudeError] = useState(false);
-	const [latitudeErrorDesc, setLatitudeErrorDesc] = useState('');
-	const [longitud, setLongitud] = useState(0);
 	const { categories } = useAppSelector(selectCategories);
+	const [Schedules, setSchedules] = useState<String[]>(['']);
 
 	return (
 		<>
@@ -75,16 +74,19 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					<Typography variant="h6">_____________</Typography>
+					<Typography variant="h6">
+						_______________________________________
+					</Typography>
 					<Typography variant="h6">Ubicación del evento</Typography>
 
 					{/* https://v4.mui.com/components/autocomplete/ */}
-					{/* /eventLocation-country/ */}
+					{/* eventLocation-country */}
 					<Grid item md={12}>
 						<FormControl>
 							<Autocomplete
 								id="country-select-demo"
 								style={{ width: 300 }}
+								// eslint-disable-next-line @typescript-eslint/no-use-before-define
 								options={countries as CountryType[]}
 								autoHighlight
 								getOptionLabel={(option) => option.label}
@@ -120,7 +122,7 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					{/* /eventLocation-city/ */}
+					{/* eventLocation-city */}
 					<Grid item md={12}>
 						<FormControl>
 							<InputLabel htmlFor="eventLocationCity">
@@ -134,7 +136,7 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					{/* /eventLocation-address/ */}
+					{/* eventLocation-address */}
 					<Grid item md={12}>
 						<FormControl>
 							<InputLabel htmlFor="eventLocationCity">
@@ -148,7 +150,7 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					{/* /eventLocation-specs/ */}
+					{/* eventLocation-specs */}
 					<Grid item md={12}>
 						<FormControl>
 							<InputLabel htmlFor="eventLocationSpecs">
@@ -165,7 +167,7 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					{/* /eventLocation-latitude/ */}
+					{/* eventLocation-latitude */}
 					<Grid item md={12}>
 						<FormControl>
 							<InputLabel htmlFor="eventLocationLatitude">
@@ -178,9 +180,10 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 								aria-describedby="eventLocationLatitude-helper"
 								/*
                 onChange={(e)=>{
-                    setLatitude(parseInt(e.target.value));
-                    console.log(latitude<-90);
-                    if(latitude<-90 || latitude>90){
+                    latitudU= parseInt(e.target.value;
+                    setLatitude(latitudU);
+                    console.log(latitudeU<-90);
+                    if(latitudeU<-90 || latitudeU>90){
                         setLatitudeError(true);
                         setLatitudeErrorDesc("El valor no está dentro del rango [-90,90]");
                     }else{
@@ -195,7 +198,7 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					{/* /eventLocation-Longitud/ */}
+					{/* eventLocation-Longitud */}
 					<Grid item md={12}>
 						<FormControl>
 							<InputLabel htmlFor="eventLocationLongitud">
@@ -214,9 +217,11 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					<Typography variant="h6">_____________</Typography>
+					<Typography variant="h6">
+						_______________________________________
+					</Typography>
 
-					{/* /eventLocation-minAge/ */}
+					{/* eventLocation-minAge */}
 					<Grid item md={12}>
 						<FormControl>
 							<InputLabel htmlFor="eventLocationMinAge">
@@ -234,7 +239,7 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					{/* /eventLocation-price/ */}
+					{/* eventLocation-price */}
 					<Grid item md={12}>
 						<FormControl>
 							<InputLabel htmlFor="eventLocationPrice">
@@ -252,7 +257,7 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					{/* /eventUrlPage/ */}
+					{/* eventUrlPage */}
 					<Grid item md={12}>
 						<FormControl>
 							<InputLabel htmlFor="eventUrlPage">
@@ -269,7 +274,7 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					{/* /eventCategory/ */}
+					{/* eventCategory */}
 					<Grid item md={12}>
 						<FormControl>
 							<Autocomplete
@@ -288,10 +293,23 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 						</FormControl>
 					</Grid>
 
-					<Typography variant="h6">_____________</Typography>
+					<Typography variant="h6">
+						_______________________________________
+					</Typography>
 					{/* to-do crear Schedule[hour hand] */}
-					<Schedule />
-					<Typography variant="h6">_____________</Typography>
+					{Schedules.map(() => (
+						<Schedule />
+					))}
+					<IconButton
+						onClick={() => {
+							setSchedules([...Schedules, '']);
+						}}
+					>
+						<Add />
+					</IconButton>
+					<Typography variant="h6">
+						_______________________________________
+					</Typography>
 
 					<Grid item md={12}>
 						<FormControl>
@@ -308,6 +326,10 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 								Detalles y características faltantes
 							</FormHelperText>
 						</FormControl>
+					</Grid>
+
+					<Grid item md={12}>
+						<Button>Crear evento</Button>
 					</Grid>
 				</Grid>
 			</Drawer>

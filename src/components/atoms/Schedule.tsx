@@ -1,7 +1,8 @@
 import 'date-fns';
 
-import React, { useState, Fragment } from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Typography, Grid, IconButton } from '@material-ui/core';
+import Add from '@material-ui/icons/Add';
 
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -25,6 +26,8 @@ const Schedule = () => {
 	const handleEndDateChange = (date: Date | null) => {
 		setSelectedEndDate(date);
 	};
+
+	const [HourHands, setHourHands] = useState<String[]>(['']);
 
 	return (
 		<>
@@ -66,7 +69,16 @@ const Schedule = () => {
 				</Grid>
 			</MuiPickersUtilsProvider>
 			<MuiPickersUtilsProvider utils={DateFnsUtils}>
-				<HourHand />
+				{HourHands.map(() => (
+					<HourHand />
+				))}
+				<IconButton
+					onClick={() => {
+						setHourHands([...HourHands, '']);
+					}}
+				>
+					<Add />
+				</IconButton>
 			</MuiPickersUtilsProvider>
 		</>
 	);

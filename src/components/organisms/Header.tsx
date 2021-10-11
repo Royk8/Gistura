@@ -70,7 +70,10 @@ const Header = () => {
 					<div>HOLA</div>
 					<ButtonBase className={classes.avatarButton}>
 						<Avatar className={classes.avatar}>
-							<Person className={classes.avatarIcon} onClick={()=>changeOpenCreEv()}/>
+							<Person
+								className={classes.avatarIcon}
+								onClick={() => changeOpenCreEv()}
+							/>
 						</Avatar>
 					</ButtonBase>
 				</Toolbar>

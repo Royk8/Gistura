@@ -50,24 +50,14 @@ function getMonthName(month: number): string {
 	return monthsArray[month];
 }
 
-function formatTime(date: Date) {
-	let h = date.getHours();
-	let am = ' AM';
-	if (h > 12) {
-		am = ' PM';
-		h -= 12;
-	} else if (h === 12) {
-		am = ' PM';
-	}
-	const ho = h.toString().padStart(2, '0');
-	const mi = date.getMinutes().toString().padStart(2, '0');
-	return `${ho}:${mi}${am}`;
+interface Props {
+	open: boolean;
+	onClose: () => void;
+	event: any;
 }
 
-function SchedulePopUp(props: any) {
-	const [selectionColor, setSelectionColor] = useState<string>('default');
+function SchedulePopUp({ open, onClose, event }: Props) {
 	const classes = useStyles();
-	const { event } = props;
 
 	/* const Fechas = event.schedules.map((fecha: any) => {
 		const startDate = new Date(fecha.startDate);
@@ -106,8 +96,8 @@ function SchedulePopUp(props: any) {
 	}); */
 	return (
 		<Dialog
-			open={props.open}
-			onClose={props.onClose}
+			open={open}
+			onClose={onClose}
 			classes={{ paper: classes.paper }}
 		>
 			<Box sx={{ marginLeft: '10px' }}>
@@ -125,7 +115,6 @@ function SchedulePopUp(props: any) {
 
 function MarkerPopUp(props: any) {
 	const [open, setOpen] = useState(false);
-	const classes = useStyles();
 	const { event } = props;
 
 	const address = event.location.address || '';
@@ -134,7 +123,7 @@ function MarkerPopUp(props: any) {
 
 	const fechas: any[] = [];
 
-	for (let i = 0; i < schedulesSize; i++) {
+	for (let i = 0; i < schedulesSize; i += 1) {
 		const startDate = new Date(event.schedules[i].startDate);
 		const diaSemana = getDayOfWeek(startDate.getDay());
 		const diaMes = startDate.getDate();
@@ -148,14 +137,10 @@ function MarkerPopUp(props: any) {
 		fechas.push({
 			start: `${diaSemana} ${diaMes} de ${mes}`,
 			end: () => {
-				if (
-					diaSemana == finDiaSemana &&
-					finDiaMes == finDiaMes &&
-					finMes == mes
-				) {
+				if (diaSemana === finDiaSemana && finMes === mes) {
 					return '';
 				}
-				return '${finDiaSemana} ${finDiaMes} de ${finMes}';
+				return `${finDiaSemana} ${finDiaMes} de ${finMes}`;
 			},
 		});
 	}
@@ -178,13 +163,13 @@ function MarkerPopUp(props: any) {
 	const { price } = event;
 	const imageurl = event.imageUrls[0];
 
-	const ImgUrl = (props: any) => {
-		if (props.url == null) {
+	const ImgUrl = ({ url }: { url: string }) => {
+		if (url == null) {
 			return <div />;
 		}
 		return (
 			<div>
-				<img src={props.url} width="100%" />
+				<img src={url} width="100%" alt={url} />
 			</div>
 		);
 	};
@@ -232,7 +217,6 @@ function MarkerPopUp(props: any) {
 				event={event}
 				onClose={() => changeOpen()}
 				open={open}
-				dates={fechas}
 			/>
 		</Box>
 	);
