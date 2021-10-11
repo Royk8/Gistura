@@ -10,9 +10,14 @@ import {
   InputLabel,
   Input,
   TextField, 
+  IconButton
 } from "@material-ui/core";
+import Add from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { makeStyles } from "@material-ui/styles";
+import Schedule from '../atoms/Schedule';
+import { useAppSelector } from '../../hooks/redux';
+import { selectCategories } from '../../state/slices/categorySlice';
 
 const useStyles = makeStyles((theme: Theme) => ({
   drawerPaper: {
@@ -42,6 +47,9 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
   const [latitudeError, setLatitudeError] = useState(false);
   const [latitudeErrorDesc, setLatitudeErrorDesc] = useState("");
   const [longitud, setLongitud] = useState(0);
+  const { categories } = useAppSelector(selectCategories);
+  const [Schedules, setSchedules] = useState<String[]>([''])
+
 
   return (
     <>
@@ -69,6 +77,7 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
             </FormControl>
           </Grid>
           
+          <Typography variant="h6">_______________________________________</Typography>
           <Typography variant="h6">Ubicación del evento</Typography>
 
           {/*https://v4.mui.com/components/autocomplete/ */}
@@ -232,7 +241,6 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
             <FormControl>  
               <InputLabel htmlFor="eventUrlPage">Url página*</InputLabel>
               <Input
-                required
                 type="url"
                 id="eventUrlPage"
                 aria-describedby="eventUrlPage-helper"
@@ -242,7 +250,7 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
               </FormHelperText>
             </FormControl>
           </Grid>
-
+          
            {/*eventCategory*/}
            <Grid item md={12}>
             <FormControl>
@@ -258,9 +266,14 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 
           <Typography variant="h6">_______________________________________</Typography>
           {/* to-do crear Schedule[hour hand] */}
-          
-          
-
+          {Schedules.map(()=>{
+                    return(<Schedule />);
+                })}
+                <IconButton onClick={()=>{
+                    setSchedules([...Schedules, '']);
+                }}>
+                  <Add />
+                </IconButton>
           <Typography variant="h6">_______________________________________</Typography>
 
           <Grid item md={12}>
@@ -294,43 +307,7 @@ interface CountryType {
   name: string;
 }
 
-const categories=[
-  {
-    id: 1,
-    name: "Teatro",
-  },
-  {
-    id: 2,
-    name: "Desfile"
-  },
-  {
-    id: 3,
-    name: "Concierto"
-  },
-  {
-    id: 4,
-    name: "Académico",
-  },
-  {
-    id: 5,
-    name: "Deporte",
-  },
-  {
-    id: 6,
-    name: "Exposición de arte"
-  },{
-    id: 7,
-    name: "Película",
-  },{
-    id: 8,
-    name: "Circo",
-  },{
-    id: 9,
-    name: "Convención",
-  }
-]
-
-interface CountryType {
+interface CountryType  {
     code: string;
     label: string;
     phone: string;
