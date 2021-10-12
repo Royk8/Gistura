@@ -45,6 +45,15 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 	const classes = useStyles();
 	const { categories } = useAppSelector(selectCategories);
 	const [Schedules, setSchedules] = useState<String[]>(['']);
+	const [Latitud, setLatitude] = useState(0);
+	const [LatitudeError, setLatitudeError] = useState(false);
+	const [Longitude, setLongitude] = useState(0);
+	const [LongitudeError, setLongitudeError] = useState(false);
+	const [minAge, setMinAge] = useState(0);
+	const [minAgeError, setMinAgeError] = useState(false);
+	const [price, setPrice] = useState(0);
+	const [priceError, setPriceError] = useState(false);
+
 
 	return (
 		<>
@@ -112,13 +121,13 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 								)}
 							/>
 							{/*
-              <InputLabel htmlFor="eventLocationCountry">País*</InputLabel>
-              <Input
-                required
-                id="eventLocationCountry"
-                aria-describedby="eventLocationCountry-helper"
-              ></Input>
-              */}
+							<InputLabel htmlFor="eventLocationCountry">País*</InputLabel>
+							<Input
+								required
+								id="eventLocationCountry"
+								aria-describedby="eventLocationCountry-helper"
+							></Input>
+							*/}
 						</FormControl>
 					</Grid>
 
@@ -178,22 +187,22 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 								type="number"
 								id="eventLocationLatitude"
 								aria-describedby="eventLocationLatitude-helper"
-								/*
-                onChange={(e)=>{
-                    latitudU= parseInt(e.target.value;
-                    setLatitude(latitudU);
-                    console.log(latitudeU<-90);
-                    if(latitudeU<-90 || latitudeU>90){
-                        setLatitudeError(true);
-                        setLatitudeErrorDesc("El valor no está dentro del rango [-90,90]");
-                    }else{
-                        setLatitudeError(false);
-                        setLatitudeErrorDesc("");
-                    }
-                }} */
+						
+								onChange={(e)=>{
+									const re = /^(0|[1-9]\d*)(\.\d+)?$/; // /^(0|[1-9]\d*)(\.\d+)?$/ exp regular para flotantes
+									const latitudeU= parseInt(e.target.value);
+									if(latitudeU<-90 || latitudeU>90 || re.test(e.target.value)){
+										console.log( re.test(e.target.value))
+										setLatitudeError(true);
+									}else{
+										setLatitudeError(false);
+										setLatitude(latitudeU);
+									}
+								}} 
+								error={LatitudeError}
 							/>
 							<FormHelperText id="eventLocationLatitude-helper">
-								Valores de [-90 a 90]
+								Valores entre [-90 a 90]
 							</FormHelperText>
 						</FormControl>
 					</Grid>
@@ -210,6 +219,17 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 								type="number"
 								id="eventLocationLongitud"
 								aria-describedby="eventLocatioLongitude-helper"
+								
+								onChange={(e)=>{
+									const longitudeU= parseInt(e.target.value);
+									if(longitudeU<-180 || longitudeU>180){
+										setLongitudeError(true);
+									}else{
+										setLongitudeError(false);
+										setLongitude(longitudeU);
+									}
+								}}
+								error={LongitudeError}
 							/>
 							<FormHelperText id="eventLocationLongitud-helper">
 								Valores de [-180 a 180]
@@ -232,6 +252,17 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 								type="number"
 								id="eventLocationMinAge"
 								aria-describedby="eventLocatioMinAge-helper"
+								onChange={(e)=>{
+									const minAgeU= parseInt(e.target.value);
+									const re = /^[0-9\b]+$/;
+									if(minAgeU>99 || minAgeU<0){
+										setMinAgeError(true);
+									}else{
+										setMinAgeError(false);
+										setMinAge(minAgeU);
+									}
+								}} 
+								error={minAgeError}
 							/>
 							<FormHelperText id="eventLocationMinAge-helper">
 								Edad mínima para ingresar
@@ -250,6 +281,16 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 								type="number"
 								id="eventLocationPrice"
 								aria-describedby="eventLocatioLPrice-helper"
+								onChange={(e)=>{
+									const priceU= parseInt(e.target.value);
+									if(priceU<0){
+										setPriceError(true);
+									}else{
+										setPriceError(false);
+										setPrice(priceU);
+									}
+								}} 
+								error={priceError}
 							/>
 							<FormHelperText id="eventLocationPrice-helper">
 								Costo de ingreso en COP

@@ -13,18 +13,28 @@ import HourHand from './HourHand';
 
 const Schedule = () => {
 	const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(
-		new Date('2021-10-09T21:11:54'),
+		new Date(),
 	);
 	const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(
-		new Date('2021-10-10T21:11:54'),
+		new Date(),
 	);
 
+	const todayDate = new Date();
+
 	const handleStartDateChange = (date: Date | null) => {
-		setSelectedStartDate(date);
+		if(selectedEndDate && date){ // si end date y date existen
+			if(date <= selectedEndDate){
+				setSelectedStartDate(date);
+			}
+		}
 	};
 
 	const handleEndDateChange = (date: Date | null) => {
-		setSelectedEndDate(date);
+		if(selectedStartDate && date){ // si end date y date existen
+			if(date >= selectedStartDate && date >= todayDate){
+				setSelectedEndDate(date);
+			}
+		}
 	};
 
 	const [HourHands, setHourHands] = useState<String[]>(['']);
@@ -46,6 +56,7 @@ const Schedule = () => {
 							KeyboardButtonProps={{
 								'aria-label': 'change date',
 							}}
+							helperText="La fecha de inicio ha de ser antes o la misma de la de finalización"
 						/>
 					</Grid>
 				</Grid>
@@ -64,6 +75,7 @@ const Schedule = () => {
 							KeyboardButtonProps={{
 								'aria-label': 'change date',
 							}}
+							helperText="La fecha de fin ha de ser despues o la misma de la de inicio"
 						/>
 					</Grid>
 				</Grid>
