@@ -4,6 +4,7 @@ import { responsiveFontSizes } from '@material-ui/core/styles';
 export const colors = {
 	primary: '#FF6B00',
 	secondary: '#7A3B00',
+	grey: '#D3D3D3',
 };
 
 const theme = createTheme({

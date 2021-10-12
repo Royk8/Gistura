@@ -48,7 +48,7 @@ const useCategory = ({ id, label, noColor }: Props) => {
 
 	const style = noColor ? undefined : { color: category.color };
 
-	const Component = () => (
+	const Component : FC = () => (
 		<Container>
 			<Icon color="inherit" style={style} />
 			{label && (
