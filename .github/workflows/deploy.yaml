@@ -26,6 +26,8 @@ jobs:
       
       - name: Build SSR
         uses: borales/actions-yarn@master
+        env:
+          NEXT_PUBLIC__API_KEY: ${{ secrets.NEXT_PUBLIC__API_KEY }}
         with:
           cmd: build
 
