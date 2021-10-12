@@ -89,7 +89,7 @@ function getMonthName(month: number): string {
 
 function formatTime(time: string): string {
 	let minutes = time.substring(3,5);
-	let hours = parseInt(time.substring(0,3));
+	let hours = parseInt(time.substring(0,3), 10);
 	const ampm = (hours > 12)? 'pm' : 'am';
 	hours = hours % 12;
 	hours = hours ? hours : 12;
