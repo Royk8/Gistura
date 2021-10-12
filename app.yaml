@@ -1,6 +1,9 @@
 runtime: nodejs12
 env: standard
 
+env_variables:
+  NEXT_PUBLIC__API_KEY: $NEXT_PUBLIC__API_KEY
+
 handlers:
 - url: /_next/static
   static_dir: .next/static
