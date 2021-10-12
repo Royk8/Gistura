@@ -23,16 +23,16 @@ jobs:
         uses: borales/actions-yarn@vmaster
         with:
           cmd: install
-
-      - name: Lint
-        uses: borales/actions-yarn@vmaster
-        with:
-          cmd: lint --fix
       
       - name: Build SSR
         uses: borales/actions-yarn@vmaster
         with:
           cmd: build
+
+      - name: Copy Env to App YAML
+        uses: ikuanyshbekov/app-yaml-env-compiler@master
+        env:
+          NEXT_PUBLIC__API_KEY: ${{ secrets.NEXT_PUBLIC__API_KEY }}
 
       - name: Setup GCP
         uses: google-github-actions/setup-gcloud@master
