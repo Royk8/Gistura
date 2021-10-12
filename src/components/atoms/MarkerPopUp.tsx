@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		display: 'table-cell',
 		textAlign: 'center',
 		verticalAlign: 'middle',
-	
+
 	},
 	img: {
 		objectFit: 'cover',
@@ -88,9 +88,9 @@ function getMonthName(month: number): string {
 }
 
 function formatTime(time: string): string {
-	let minutes = time.substring(3,5);
-	let hours = parseInt(time.substring(0,3), 10);
-	const ampm = (hours > 12)? 'pm' : 'am';
+	let minutes = time.substring(3, 5);
+	let hours = parseInt(time.substring(0, 3), 10);
+	const ampm = (hours > 12) ? 'pm' : 'am';
 	hours = hours % 12;
 	hours = hours ? hours : 12;
 	return hours + ':' + minutes + ' ' + ampm;
@@ -106,31 +106,23 @@ interface Props {
 function SchedulePopUp({ open, onClose, event, fechas }: Props) {
 	const classes = useStyles();
 
-	const horarios = fechas.map((fecha : any) => {
+	const horarios = fechas.map((fecha: any) => {
 
 		const timeButtons = (hourHands: any) => {
 			return hourHands.map((hour: any) => {
-				const st : string = hour['startTime'];
-				const en : string = hour['endTime'];
+				const st: string = hour['startTime'];
+				const en: string = hour['endTime'];
 				const hourText = `${formatTime(st)} - ${formatTime(en)}`;
-				let variante = 'outlined';
-				const selectButton = ((variant : string) => {
-					if(variant === 'outlined')
-						variant = 'contained';
-					else
-						variant = 'outlined'
-				})
 				return (
 					<Button
-					variant={variante}
-					className={classes.timeButton}
-					onClick={selectButton(variante)}
+						variant='outlined'
+						className={classes.timeButton}
 					>
 						<Typography variant="h2">{hourText}</Typography>
-					</Button>)		
-			});	
-		};		
-		return(
+					</Button>)
+			});
+		};
+		return (
 			<Box sx={{ marginTop: '10px' }}>
 				<Typography variant='h2' color='primary'>{fecha['start']} </Typography>
 				{timeButtons(fecha.hourHands)}
@@ -144,8 +136,8 @@ function SchedulePopUp({ open, onClose, event, fechas }: Props) {
 			classes={{ paper: classes.paper }}
 		>
 			<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          		<CloseIcon />
-        	</IconButton>
+				<CloseIcon />
+			</IconButton>
 			<Box sx={{ marginLeft: '10px' }}>
 				<Typography variant="h1" align="left">
 					{event.name}
@@ -202,14 +194,14 @@ function MarkerPopUp(props: any) {
 		});
 	}
 
-	const isFechas : boolean = !(fechas.length === 0)
+	const isFechas: boolean = !(fechas.length === 0)
 
 	const rangoDeFechas = () => {
 		if (!isFechas) {
 			return '';
 		}
 		if (fechas.at(-1).end === '') {
-			if(fechas.length === 1){
+			if (fechas.length === 1) {
 				return `${fechas[0].start}`;
 			}
 			return `${fechas[0].start} - ${fechas.at(-1).start}`;
@@ -228,10 +220,10 @@ function MarkerPopUp(props: any) {
 	const price = (event.price && event.price !== '0')
 		? `$ ${event.price}`
 		: 'Entrada Gratuita';
-		
+
 	const imageurl = event.imageUrls[0];
 
-	const {Component: CategoryLabel} = useCategory({id:category, label:true}) || {Component: () => <></>}
+	const { Component: CategoryLabel } = useCategory({ id: category, label: true }) || { Component: () => <></> }
 
 	const ImgUrl = ({ url }: { url: string }) => {
 		if (url == null) {
@@ -244,21 +236,21 @@ function MarkerPopUp(props: any) {
 		);
 	};
 
-	
+
 	const eventUrl = () => {
-		if(event.sponsorPage != null){
-			let sponsorUrl : string = event.sponsorPage;
-			if (!sponsorUrl.startsWith('http')){
+		if (event.sponsorPage != null) {
+			let sponsorUrl: string = event.sponsorPage;
+			if (!sponsorUrl.startsWith('http')) {
 				sponsorUrl = 'https://' + event.sponsorPage;
 			}
 			return (
-					<Button href={sponsorUrl} target='_blank'>
-						<Typography variant="h2" color="primary">
-							Página del Evento
-						</Typography>
-					</Button> );
+				<Button href={sponsorUrl} target='_blank'>
+					<Typography variant="h2" color="primary">
+						Página del Evento
+					</Typography>
+				</Button>);
 		}
-		return(	<></>)
+		return (<></>)
 	};
 
 	const changeOpen = () => {
@@ -266,13 +258,13 @@ function MarkerPopUp(props: any) {
 	};
 
 	const Horarios = () => {
-		if(isFechas){
-			return(
-			<Button onClick={() => changeOpen()}>
-				<Typography variant="h2" color="primary">
-					Horarios
-				</Typography>
-			</Button>
+		if (isFechas) {
+			return (
+				<Button onClick={() => changeOpen()}>
+					<Typography variant="h2" color="primary">
+						Horarios
+					</Typography>
+				</Button>
 			)
 		}
 		return (<></>);
@@ -287,7 +279,7 @@ function MarkerPopUp(props: any) {
 			</Typography>
 			<Typography variant="h2">{rangoDeFechas()}</Typography>
 			<Typography display="inline" variant="h2">
-				<CategoryLabel/> 
+				<CategoryLabel />
 			</Typography>
 			<Typography display="inline" variant="h2" color="primary">
 				{price}{' '}
