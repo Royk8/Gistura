@@ -78,9 +78,7 @@ const MapViewer = () => {
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 					attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
 				/>
-				<MarkerClusterGroup>
-					{EventosFuncionales()}
-				</MarkerClusterGroup>
+				<MarkerClusterGroup>{EventosFuncionales()}</MarkerClusterGroup>
 				{currentLocation[0] && currentLocation[1] && (
 					<Circle
 						center={currentLocation}
