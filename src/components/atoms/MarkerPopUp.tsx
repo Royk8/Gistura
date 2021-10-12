@@ -87,7 +87,7 @@ function getMonthName(month: number): string {
 	return monthsArray[month];
 }
 
-function formatTime(time: string) : string {
+function formatTime(time: string): string {
 	let minutes = time.substring(3,5);
 	let hours = parseInt(time.substring(0,3));
 	const ampm = (hours > 12)? 'pm' : 'am';
@@ -209,7 +209,7 @@ function MarkerPopUp(props: any) {
 			return '';
 		}
 		if (fechas.at(-1).end === '') {
-			if(fechas.length == 1){
+			if(fechas.length === 1){
 				return `${fechas[0].start}`;
 			}
 			return `${fechas[0].start} - ${fechas.at(-1).start}`;
