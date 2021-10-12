@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-type URLS = 'categorias' | 'events';
+type URLS = 'categorias' | 'eventos';
 
 const backturaInstance = (instanceURL: URLS, version?: number) =>
 	axios.create({
-		baseURL: `https://backtura-dot-gistura.uc.r.appspot.com/v${
+		baseURL: `https://backtura.gistura.com/v${
 			version || '1'
 		}/${instanceURL}`,
 		headers: {

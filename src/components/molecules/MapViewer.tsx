@@ -5,9 +5,11 @@ import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import EventMarker from './EventMarker';
-import { fetchEventsJSON } from '../../hooks/CulturalEvents';
+import { useFetchEventsJSON } from '../../hooks/CulturalEvents';
 import 'leaflet/dist/leaflet.css';
 import customTheme from '../../styles/theme';
+import { useAppDispatch } from '../../hooks/redux';
+import { setLocation } from '../../state/slices/eventSlice';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	map: {
@@ -27,18 +29,23 @@ const MapViewer = () => {
 		0, 0,
 	]);
 
-	const { cultural } = fetchEventsJSON();
+	const { cultural } = useFetchEventsJSON();
+	const dispatch = useAppDispatch();
 
-	const EventosFuncionales = () => {
-		if (cultural == null) {
-			return <div />;
-		}
-		return <EventMarker eventos={cultural} />;
-	};
+	const EventosFuncionales = () =>
+		cultural ? <EventMarker eventos={cultural} /> : null;
 
 	const classes = useStyles();
 
 	useEffect(() => {
+		map?.addEventListener('click', ({ latlng }: any) => {
+			dispatch(
+				setLocation({
+					lat: latlng.lat.toString(),
+					lon: latlng.lng.toString(),
+				}),
+			);
+		});
 		if (navigator?.geolocation && map) {
 			navigator.geolocation.getCurrentPosition(
 				(position) => {
@@ -71,6 +78,7 @@ const MapViewer = () => {
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 					attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
 				/>
+				<MarkerClusterGroup>{EventosFuncionales()}</MarkerClusterGroup>
 				{currentLocation[0] && currentLocation[1] && (
 					<Circle
 						center={currentLocation}
@@ -83,7 +91,6 @@ const MapViewer = () => {
 						}}
 					/>
 				)}
-				<MarkerClusterGroup>{EventosFuncionales()}</MarkerClusterGroup>
 			</MapContainer>
 		</div>
 	);

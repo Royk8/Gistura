@@ -4,6 +4,9 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { AppProps } from 'next/dist/shared/lib/router/router';
 import { Provider } from 'react-redux';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import esLocale from 'date-fns/locale/es';
 
 import theme from '../styles/theme';
 import store from '../state/store';
@@ -29,8 +32,13 @@ const MyApp = (props: AppProps) => {
 			</Head>
 			<ThemeProvider theme={theme}>
 				<Provider store={store}>
-					<CssBaseline />
-					<Component {...pageProps} />
+					<MuiPickersUtilsProvider
+						utils={DateFnsUtils}
+						locale={esLocale}
+					>
+						<CssBaseline />
+						<Component {...pageProps} />
+					</MuiPickersUtilsProvider>
 				</Provider>
 			</ThemeProvider>
 		</>

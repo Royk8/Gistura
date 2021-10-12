@@ -98,7 +98,7 @@ const EventMarker: FC<EventMarkerProps> = ({ eventos }) => {
 		);
 	});
 
-	return <div>{events}</div>;
+	return <>{events}</>;
 };
 
 export default EventMarker;

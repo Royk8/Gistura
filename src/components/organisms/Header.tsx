@@ -67,7 +67,6 @@ const Header = () => {
 							</div>
 						</Link>
 					</div>
-					<div>HOLA</div>
 					<ButtonBase className={classes.avatarButton}>
 						<Avatar className={classes.avatar}>
 							<Person
