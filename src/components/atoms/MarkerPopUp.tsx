@@ -229,8 +229,8 @@ function MarkerPopUp(props: any) {
 		label: true,
 	}) || { Component: () => <></> };
 
-	const ImgUrl = ({ url }: { url: string }) => {
-		if (url == null) {
+	const ImgUrl = ({ url }: { url: any }) => {
+		if (url == null || !url) {
 			return <div />;
 		}
 		return (
