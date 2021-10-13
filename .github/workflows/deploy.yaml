@@ -1,0 +1,49 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ test ]
+
+jobs:
+  lint-test-build-deploy:
+    name: Lint, Test, Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          persist-credential: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@master
+        with:
+          node-version: 12
+
+      - name: Install Dependencies
+        uses: borales/actions-yarn@master
+        with:
+          cmd: install
+      
+      - name: Build SSR
+        uses: borales/actions-yarn@master
+        env:
+          NEXT_PUBLIC__API_KEY: ${{ secrets.NEXT_PUBLIC__API_KEY }}
+        with:
+          cmd: build
+
+      - name: Copy Env to App YAML
+        uses: ikuanyshbekov/app-yaml-env-compiler@master
+        env:
+          NEXT_PUBLIC__API_KEY: ${{ secrets.NEXT_PUBLIC__API_KEY }}
+
+      - name: Setup GCP
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Deploy to App Engine
+        uses: google-github-actions/deploy-appengine@main
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
