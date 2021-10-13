@@ -39,4 +39,5 @@ export const createEvent = async (event: Event) =>
 		})),
 	});
 
+export const getEvents = async () => api.get<Event[]>('');
 export default api;

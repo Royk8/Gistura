@@ -86,12 +86,15 @@ function getMonthName(month: number): string {
 }
 
 function formatTime(time: string): string {
-	const minutes = time.substring(3, 5);
-	let hours = parseInt(time.substring(0, 3), 10);
-	const ampm = hours > 12 ? 'pm' : 'am';
-	hours %= 12;
-	hours = hours || 12;
-	return `${hours}:${minutes} ${ampm}`;
+	if (typeof time === 'string') {
+		const minutes = time.substring(3, 5);
+		let hours = parseInt(time.substring(0, 3), 10);
+		const ampm = hours > 12 ? 'pm' : 'am';
+		hours %= 12;
+		hours = hours || 12;
+		return `${hours}:${minutes} ${ampm}`;
+	}
+	return time;
 }
 
 interface Props {
@@ -219,7 +222,7 @@ function MarkerPopUp(props: any) {
 			? `$ ${event.price}`
 			: 'Entrada Gratuita';
 
-	const imageurl = event.imageUrls[0];
+	const imageurl = event.imageUrls?.length && event.imageUrls[0];
 
 	const { Component: CategoryLabel } = useCategory({
 		id: category,

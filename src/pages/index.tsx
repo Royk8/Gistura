@@ -21,8 +21,9 @@ const Home = () => {
 
 	return (
 		<>
-			<Header />
-			<MapViewer />
+			<Header>
+				<MapViewer />
+			</Header>
 		</>
 	);
 };

@@ -16,7 +16,7 @@ import * as CustomIcons from '../atoms/icons/MapIcons';
 import MinAgeCustomFormat from '../atoms/numberFormats/MinAge';
 import PriceCustomFormat from '../atoms/numberFormats/Price';
 import Schedule from '../atoms/Schedule';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { selectCategories } from '../../state/slices/categorySlice';
 import { Event, initialEvent } from '../../interfaces/eventInterfaces';
 import { Location } from '../../interfaces/locationInterfaces';
@@ -27,7 +27,12 @@ import {
 import { Icon as IconNamespace } from '../../interfaces/iconInterfaces';
 import { getReverseInfo } from '../../api/nominatim/reverseApi';
 import { createEvent } from '../../api/backtura/eventApi';
-import { selectEvents } from '../../state/slices/eventSlice';
+import {
+	fetchEvents,
+	selectEvents,
+	setCreateEvent,
+	setEvents,
+} from '../../state/slices/eventSlice';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	drawerPaper: {
@@ -80,15 +85,24 @@ type ScheduleValueFunction = (currentEvent: ScheduleInterface) => HourHand[];
 const CreateEvSideMenu = ({ open, onClose }: any) => {
 	const [event, setEvent] = useState<Event>(initialEvent);
 	const [showDates, setShowDates] = useState(true);
+	const [timeOutState, setTimeOutState] = useState<NodeJS.Timeout | null>(
+		null,
+	);
 
 	const paperRef = useRef<HTMLDivElement>(null);
 	const classes = useStyles();
 	const { categories } = useAppSelector(selectCategories);
-	const { location: reduxLocation } = useAppSelector(selectEvents);
+	const { events, createEvent: createEventState } =
+		useAppSelector(selectEvents);
+	const dispatch = useAppDispatch();
 
 	const { ExpandMore, ExpandLess, Add } = Icons;
 	const disableSubmit =
-		!event.name || !event.category || !event.location || !event.schedules;
+		!event.name ||
+		!event.category ||
+		!event.location ||
+		!event.schedules ||
+		!event.location.address;
 
 	const updateEvent = (
 		field: keyof Event,
@@ -159,21 +173,43 @@ const CreateEvSideMenu = ({ open, onClose }: any) => {
 
 	const handleSubmit = async () => {
 		await createEvent(event);
+		dispatch(setCreateEvent(false));
+		dispatch(fetchEvents());
 	};
 
 	useEffect(() => {
-		getReverseInfo(reduxLocation).then(({ data }) => {
-			updateEvent('location', (currentEvent) => ({
-				...currentEvent.location,
-				city: data.address?.city || '',
-				country: data.address?.country || '',
-				latitude: Number(data.lat),
-				longitude: Number(data.lon),
-				address: data.name,
-				specs: data.display_name.replace(`${data.name}, `, ''),
-			}));
-		});
-	}, [reduxLocation]);
+		if (open && createEventState && events.length === 1) {
+			timeOutState && clearTimeout(timeOutState);
+			setTimeOutState(
+				setTimeout(() => {
+					dispatch(setEvents([event]));
+				}, 1000),
+			);
+		}
+	}, [event]);
+
+	useEffect(() => {
+		if (
+			events[0] &&
+			events[0].location.latitude !== event.location.latitude &&
+			events[0].location.longitude !== event.location.longitude
+		) {
+			getReverseInfo({
+				lat: events[0].location.latitude.toString(),
+				lon: events[0].location.longitude.toString(),
+			}).then(({ data }) => {
+				updateEvent('location', (currentEvent) => ({
+					...currentEvent.location,
+					city: data.address?.city || '',
+					country: data.address?.country || '',
+					latitude: Number(data.lat),
+					longitude: Number(data.lon),
+					address: data.name,
+					specs: data.display_name.replace(`${data.name}, `, ''),
+				}));
+			});
+		}
+	}, [events[0]?.location.latitude, events[0]?.location.longitude]);
 
 	return (
 		<>

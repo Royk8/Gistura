@@ -50,8 +50,7 @@ const EventMarker: FC<EventMarkerProps> = ({ eventos }) => {
 	const events = eventos.map((evento: any) => {
 		if (
 			evento.location.latitude == null ||
-			evento.location.longitude == null ||
-			!evento.isActive
+			evento.location.longitude == null
 		) {
 			return vacio;
 		}
